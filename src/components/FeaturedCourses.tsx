@@ -11,13 +11,14 @@ interface Course {
   slug: string;
   description: string;
   price: number;
-  isfeatured: boolean;
   instructor: string;
+  isFeatured: boolean;
+  image: string;
 }
 
-export default function FeaturedCourses() {
+function FeaturedCourses() {
   const featuredCourses = courseData.courses.filter(
-    (course: Course) => course.isfeatured
+    (course: Course) => course.isFeatured
   );
   return (
     <div className="py-12 bg-gray-900 ">
@@ -57,3 +58,5 @@ export default function FeaturedCourses() {
     </div>
   );
 }
+
+export default FeaturedCourses;
