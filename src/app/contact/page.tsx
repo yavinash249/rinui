@@ -33,8 +33,10 @@ const App: React.FC = () => {
       setUser(data);
       getRepos(username);
     } catch (err) {
-      if (err.response.status === 404) {
+      if (axios.isAxiosError(err) && err.response && err.response.status === 404) {
         setError('No profile with this username');
+      } else {
+        setError('An error occurred while fetching the user');
       }
     }
   };
