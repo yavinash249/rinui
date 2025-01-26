@@ -1,25 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Music School Website
 
-## Getting Started
+A modern and interactive music school website built with **Next.js** and styled using the **Aceternity UI** library. The website showcases available courses and includes a contact page where users can search for GitHub profiles.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-# Installation
+## Features
 
-To install the required dependencies, run:
+- **Course Page**: Displays a list of available music courses with details such as course name, duration, and instructor.
+- **Contact Page**: Allows users to search for GitHub profiles by entering a GitHub username. Fetches and displays profile information using the GitHub API.
+- **Responsive Design**: Fully responsive and optimized for all devices (desktop, tablet, and mobile).
+- **Modern UI**: Built using the Aceternity UI library for sleek and interactive components.
 
-- `framer-motion`: A popular animation library for React, allowing you to create smooth and interactive animations.
-- `clsx`: A tiny utility for constructing `className` strings conditionally.
-- `tailwind-merge`: A utility function that merges Tailwind CSS class names together.
+---
+
+## Technologies Used
+
+- **Frontend Framework**: [Next.js](https://nextjs.org/)
+- **UI Library**: [Aceternity UI](https://ui.aceternity.com/)
+- **Styling**: Tailwind CSS
+- **API Integration**: GitHub API for fetching user profiles
+- **Deployment**: Vercel (or any other platform of your choice)
+
+---
+
+## Pages
+
+###  Home Page
+- Displays a welcoming hero section with a call-to-action button.
+- Highlights featured courses and instructors.
+
+###  Courses Page
+- Lists all available music courses.
+- Each course card includes:
+  - Course title
+  - Duration
+  - Instructor name
+  - A button to learn more or enroll.
+
+### 3. Contact Page
+- Includes a form for users to submit inquiries.
+- **GitHub Profile Search**:
+  - Input field to enter a GitHub username.
+  - Fetches and displays the user's GitHub profile information (e.g., name, bio, followers, repositories).
+
+---
+
+
 
 # Installing Axios
 
