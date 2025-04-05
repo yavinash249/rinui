@@ -1,14 +1,24 @@
 import { cn } from "@/app/utils/cn";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export const Meteors = ({
+const Meteors = ({
   number,
   className,
 }: {
   number?: number;
   className?: string;
 }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Ensures this runs only on the client
+  }, []);
+
+  if (!isClient) {
+    return null; // Avoid rendering on the server
+  }
+
   const meteors = new Array(number || 20).fill(true);
   return (
     <>
@@ -31,3 +41,5 @@ export const Meteors = ({
     </>
   );
 };
+
+export default Meteors;

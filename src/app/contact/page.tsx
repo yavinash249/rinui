@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-'use client'
-import React, { useState, FormEvent } from 'react';
+'use client';
+import React, { useState, useEffect, FormEvent, useMemo } from 'react';
 import axios from 'axios';
-import { Meteors } from '@/components/ui/meteors'
-
+import Meteors from '@/components/ui/meteors';
 
 const APIURL = 'https://api.github.com/users/';
 
@@ -26,6 +25,8 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [repos, setRepos] = useState<Repo[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  const randomValue = useMemo(() => Math.random(), []); // Memoize random value
 
   const getUser = async (username: string) => {
     try {
@@ -60,53 +61,75 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="">
-    <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased ">
-            
-   <div className='max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black'>
-      <form onSubmit={handleSubmit} className='w-full max-w-[700px]'>
-        <input 
-        className='rounded-lg border border-neutral-800 focus:ring-2 text-white focus:ring-teal-500  w-full relative z-10 mt-4  bg-neutral-500 placeholder:text-neutral-400'  
-        type="text"
-        name="search"
-        placeholder="Search GitHub username"
-          
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-black text-white">
+      <div className="max-w-lg w-full p-8 bg-gray-800 bg-opacity-70 rounded-2xl shadow-xl backdrop-blur-md">
+        <form onSubmit={handleSubmit} className="mb-6 flex gap-2">
+          <input
+            className="flex-1 p-4 text-white bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-300 placeholder-gray-400"
+            type="text"
+            name="search"
+            placeholder="Search GitHub username"
           />
-        <button type="submit">Search</button>
-      </form>
-      {error && <div>{error}</div>}
-      {user && (
-        <div className="card">
-          <div>
-            <img
-             src={user.avatar_url}
-              alt={user.name} 
-              className="rounded-full border-8 border-[#2a2a72] h-[150px] w-[150px] mb-4 md:mb-0" />
-          </div>
-          <div className="ml-0 md:ml-8 text-gray-300">
-            <h2 className='text-white mb-2'>{user.name || user.login}</h2>
-            {user.bio && <p>{user.bio}</p>}
-            <ul className='list-none flex flex-wrap justify-between max-w-[400px]'>
-              <li className='flex items-center mb-2 mr-4'>{user.followers} <strong>Followers</strong></li>
-              <li className='flex items-center mb-2 mr-4' >{user.following} <strong>Following</strong></li>
-              <li className='flex items-center mb-4' >{user.public_repos} <strong>Repos</strong></li>
-            </ul>
-            <div id="repos">
-              {repos.slice(0, 5).map((repo) => (
-                <a key={repo.name} href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-white bg-[#212a72] text-sm px-2 py-1 mr-2 mb-2 inline-block">
-                  {repo.name}
-                </a>
-              ))}
+          <button
+            type="submit"
+            className="px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
+          >
+            Search
+          </button>
+        </form>
+        {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+        {user && (
+          <div className="rounded-xl bg-gray-800/50 border border-gray-700 p-6 transition-all duration-300 hover:shadow-xl">
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex-shrink-0">
+                <img
+                  src={user.avatar_url}
+                  alt={user.name}
+                  className="rounded-lg h-24 w-24 object-cover border border-gray-600"
+                />
+              </div>
+              <div className="flex-1 space-y-4">
+                <div>
+                  <h2 className="text-xl font-semibold text-white">{user.name || user.login}</h2>
+                  {user.bio && <p className="text-gray-400 text-sm mt-1">{user.bio}</p>}
+                </div>
+                <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div className="text-center">
+                    <span className="block font-medium text-blue-400">{user.followers}</span>
+                    <span className="text-gray-400">Followers</span>
+                  </div>
+                  <div className="text-center">
+                    <span className="block font-medium text-blue-400">{user.following}</span>
+                    <span className="text-gray-400">Following</span>
+                  </div>
+                  <div className="text-center">
+                    <span className="block font-medium text-blue-400">{user.public_repos}</span>
+                    <span className="text-gray-400">Repos</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium text-gray-300">Repositories</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {repos.slice(0, 5).map((repo) => (
+                      <a
+                        key={repo.name}
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1 bg-gray-700/50 rounded-md text-sm text-white hover:bg-gray-700 transition-colors duration-200"
+                      >
+                        {repo.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      <Meteors number={250} />
     </div>
-    
-    </div>
-    <Meteors number={250} />
-    </div>
-
   );
 };
 
